@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+@theme {
+  --font-playfair: var(--font-playfair);
+  --font-manrope: var(--font-manrope);
+}
+
+@layer utilities {
+  .font-playfair {
+    font-family: var(--font-playfair);
+  }
+  .font-manrope {
+    font-family: var(--font-manrope);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
