@@ -89,6 +89,12 @@ export default function ScrollyCanvas({ frameCount }: ScrollyCanvasProps) {
   });
 
   useEffect(() => {
+    if (isLoaded && images.length > 0) {
+      renderFrame(0);
+    }
+  }, [isLoaded, images]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current) {
         canvasRef.current.width = window.innerWidth;
