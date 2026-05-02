@@ -20,29 +20,37 @@ export default function ScrollyCanvas({ frameCount }: ScrollyCanvasProps) {
 
   // Preload images
   useEffect(() => {
-    let loadedCount = 0;
-    const loadedImages: HTMLImageElement[] = [];
-    const step = 3; // Optimization: Load every 3rd frame (approx 85 frames) for better mobile memory performance
-    const totalToLoad = Math.ceil(frameCount / step);
+    const preloadImages = async () => {
+      const loadedImages: HTMLImageElement[] = [];
+      let loadedCount = 0;
 
-    const preloadImages = () => {
-      for (let i = 0; i < frameCount; i += step) {
+      // 1. Load the first image immediately
+      const firstImg = new Image();
+      firstImg.src = `/sequence/frame_1.png`;
+      firstImg.onload = () => {
+        loadedImages[0] = firstImg;
+        setImages([firstImg]);
+        // Initial render
+        setTimeout(() => renderFrame(0), 100);
+      };
+
+      // 2. Load the rest
+      for (let i = 1; i < frameCount; i++) {
         const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.src = `/sequence/frame_${i}.png`;
+        img.src = `/sequence/frame_${i + 1}.png`;
         img.onload = () => {
           loadedCount++;
-          setLoadingProgress(Math.floor((loadedCount / totalToLoad) * 100));
-          if (loadedCount === totalToLoad) {
-            setImages(loadedImages);
+          setLoadingProgress((loadedCount / (frameCount - 1)) * 100);
+          
+          // 20 படங்கள் லோடு ஆன உடனேயே லோடிங் ஸ்கிரீனை எடுத்துவிடுவோம்
+          if (loadedCount === 20) {
             setIsLoaded(true);
+            setImages([...loadedImages]);
           }
-        };
-        img.onerror = () => {
-          loadedCount++;
-          if (loadedCount === totalToLoad) {
-            setImages(loadedImages);
-            setIsLoaded(true);
+
+          // ஒவ்வொரு 10 படங்களுக்கு ஒருமுறை அல்லது கடைசி படம் வரும்போது அப்டேட் செய்யவும்
+          if (loadedCount % 10 === 0 || loadedCount === frameCount - 1) {
+            setImages([...loadedImages]);
           }
         };
         loadedImages[i] = img;
@@ -76,10 +84,21 @@ export default function ScrollyCanvas({ frameCount }: ScrollyCanvasProps) {
       const img = images[nearestIndex];
       if (!img) return;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+      // மொபைலில் படம் மேலே மறையாமல் இருக்க மற்றும் அளவைக் குறைக்க (Reduce size)
+      const isMobile = window.innerWidth < 768;
+      
+      let scale;
+      if (isMobile) {
+        // மொபைலில் படத்தை 70% அளவுக்குச் சுருக்குகிறோம் (Contain like feel)
+        scale = Math.min(canvas.width / img.width, canvas.height / img.height) * 1.2;
+      } else {
+        scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+      }
+
       const x = (canvas.width / 2) - (img.width / 2) * scale;
-      const y = (canvas.height / 2) - (img.height / 2) * scale;
+      const y = isMobile ? (canvas.height / 4) - (img.height / 4) * scale : (canvas.height / 2) - (img.height / 2) * scale;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
     });
   };

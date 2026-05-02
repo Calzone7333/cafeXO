@@ -17,8 +17,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # Node/NPM கிடைக்க இது அவசியம்
             cd /var/www/cafeXO
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
             npm install
             npm run build
-            pm2 restart cafexo
+            pm2 restart cafexo || pm2 start npm --name "cafexo" -- start
