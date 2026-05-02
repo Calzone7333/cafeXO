@@ -29,7 +29,7 @@ const menuItems = [
 
 export default function MenuSection() {
   return (
-    <section id="menu" className="relative z-20 py-32 bg-[#050505] px-8 md:px-24 overflow-hidden">
+    <section className=" menu relative z-20 py-32 bg-[#050505] px-8 md:px-24 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />

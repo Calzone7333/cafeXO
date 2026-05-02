@@ -1,9 +1,40 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import ScrollyCanvas from "@/components/ScrollyCanvas";
-import MenuSection from "@/components/MenuSection";
+import FullMenu from "@/components/FullMenu";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
+import Navbar from "@/components/Navbar";
+import MenuHero from "@/components/MenuHero";
+
+import MenuSection from "@/components/MenuSection";
 
 export default function Home() {
+  const [showOnlyMenu, setShowOnlyMenu] = useState(false);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setShowOnlyMenu(window.location.hash === "#menu");
+    };
+
+    // Initial check
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  if (showOnlyMenu) {
+    return (
+      <main className="relative min-h-screen bg-[#050505]">
+        <Navbar />
+        <MenuHero />
+        <FullMenu />
+      </main>
+    );
+  }
+
   return (
     <main className="relative min-h-screen bg-[#050505]">
       <ScrollyCanvas frameCount={254} />
