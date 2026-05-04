@@ -37,13 +37,23 @@ const categories = [
 ];
 
 export default function FullMenu() {
+  React.useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
+
   return (
-    <section className="py-24 bg-[#050505] min-h-screen">
+    <section id="menu" className="py-24 bg-[#050505] min-h-screen">
       <div className="max-w-6xl mx-auto px-6">
         {categories.map((category, catIndex) => (
           <div key={category.id} id={category.id} className="mb-32 last:mb-0 scroll-mt-32">
             {/* Category Header */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -63,14 +73,11 @@ export default function FullMenu() {
               {category.images.map((src, imgIndex) => (
                 <motion.div
                   key={src}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: imgIndex * 0.1 }}
+                  initial={{ opacity: 1, scale: 1 }}
                   className="relative w-full rounded-xl overflow-hidden border border-white/5 shadow-2xl transition-transform duration-500 hover:scale-[1.01]"
                 >
-                  <img 
-                    src={src} 
+                  <img
+                    src={encodeURI(src)}
                     alt={`${category.title} Page ${imgIndex + 1}`}
                     className="w-full h-auto object-cover"
                   />

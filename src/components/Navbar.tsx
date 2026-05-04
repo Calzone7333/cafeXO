@@ -14,6 +14,14 @@ export default function Navbar() {
     { name: "Contact", href: "/#contact" },
   ];
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === "/" || href === "Home") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsOpen(false);
+    }
+  };
+
   return (
     <>
       <motion.nav
@@ -23,7 +31,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 w-full z-[100] px-8 md:px-24 py-8 flex items-center justify-between pointer-events-auto bg-gradient-to-b from-black/50 to-transparent"
       >
         {/* Logo */}
-        <a href="/" className="flex items-center group">
+        <a href="/" onClick={(e) => handleLinkClick(e, "/")} className="flex items-center group">
           <img 
             src="/Logo.png" 
             alt="CAFEXO" 
@@ -37,6 +45,7 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
+              onClick={(e) => handleLinkClick(e, link.name)}
               className="text-[12px] font-black tracking-[0.2em] text-white uppercase transition-colors font-manrope hover:text-white/60"
             >
               {link.name}
@@ -81,7 +90,7 @@ export default function Navbar() {
                 transition={{ delay: 0.1 + i * 0.1 }}
                 key={link.name}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => handleLinkClick(e, link.name)}
                 className="text-4xl font-black text-white uppercase font-playfair tracking-tighter"
               >
                 {link.name}

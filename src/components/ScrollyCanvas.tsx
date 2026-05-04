@@ -21,39 +21,65 @@ export default function ScrollyCanvas({ frameCount }: ScrollyCanvasProps) {
   // Preload images
   useEffect(() => {
     const preloadImages = async () => {
-      const loadedImages: HTMLImageElement[] = [];
-      let loadedCount = 0;
-
-      // 1. Load the first image immediately
-      const firstImg = new Image();
-      firstImg.src = `/sequence/frame_1.png`;
-      firstImg.onload = () => {
-        loadedImages[0] = firstImg;
-        setImages([firstImg]);
-        // Initial render
-        setTimeout(() => renderFrame(0), 100);
+      const loadedImages: HTMLImageElement[] = new Array(frameCount);
+      
+      // Function to load a single image
+      const loadImage = (index: number): Promise<HTMLImageElement> => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = `/sequence/frame_${index + 1}.png`;
+          img.onload = () => {
+            loadedImages[index] = img;
+            resolve(img);
+          };
+          img.onerror = reject;
+        });
       };
 
-      // 2. Load the rest
-      for (let i = 1; i < frameCount; i++) {
-        const img = new Image();
-        img.src = `/sequence/frame_${i + 1}.png`;
-        img.onload = () => {
-          loadedCount++;
-          setLoadingProgress((loadedCount / (frameCount - 1)) * 100);
-          
-          // 20 படங்கள் லோடு ஆன உடனேயே லோடிங் ஸ்கிரீனை எடுத்துவிடுவோம்
-          if (loadedCount === 20) {
-            setIsLoaded(true);
-            setImages([...loadedImages]);
-          }
+      try {
+        // Phase 1: Load essential frames (Keyframes - every 5th frame)
+        // This allows user to scroll immediately with a slightly jumpy but working animation
+        const keyframeIndices = [];
+        for (let i = 0; i < frameCount; i += 5) {
+          keyframeIndices.push(i);
+        }
+        if (!keyframeIndices.includes(frameCount - 1)) keyframeIndices.push(frameCount - 1);
 
-          // ஒவ்வொரு 10 படங்களுக்கு ஒருமுறை அல்லது கடைசி படம் வரும்போது அப்டேட் செய்யவும்
-          if (loadedCount % 10 === 0 || loadedCount === frameCount - 1) {
+        let keyframesLoaded = 0;
+        await Promise.all(keyframeIndices.map(async (idx) => {
+          await loadImage(idx);
+          keyframesLoaded++;
+          setLoadingProgress((keyframesLoaded / frameCount) * 100); 
+        }));
+
+        // Phase 2: Load the rest in chunks to not choke the browser
+        const remainingIndices = [];
+        for (let i = 0; i < frameCount; i++) {
+          if (!keyframeIndices.includes(i)) remainingIndices.push(i);
+        }
+
+        // Load in chunks of 10 to maintain performance
+        const chunkSize = 10;
+        for (let i = 0; i < remainingIndices.length; i += chunkSize) {
+          const chunk = remainingIndices.slice(i, i + chunkSize);
+          await Promise.all(chunk.map(idx => loadImage(idx)));
+          
+          const totalLoaded = keyframeIndices.length + i + chunk.length;
+          setLoadingProgress((totalLoaded / frameCount) * 100);
+          
+          // Update images state every chunk to fill the gaps
+          if (i % 30 === 0 || i + chunkSize >= remainingIndices.length) {
             setImages([...loadedImages]);
           }
-        };
-        loadedImages[i] = img;
+        }
+
+        // ONLY NOW set isLoaded to true (after all images are done)
+        setIsLoaded(true);
+        setTimeout(() => renderFrame(0), 100);
+      } catch (error) {
+        console.error("Error preloading images:", error);
+        // Fallback: set loaded anyway if we have some images
+        setIsLoaded(true);
       }
     };
 
@@ -74,33 +100,41 @@ export default function ScrollyCanvas({ frameCount }: ScrollyCanvasProps) {
   const frameIndex = useTransform(smoothProgress, [0, 1], [0, frameCount - 1]);
 
   const renderFrame = (index: number) => {
-    requestAnimationFrame(() => {
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
-      if (!canvas || !ctx || images.length === 0) return;
+    const canvas = canvasRef.current;
+    if (!canvas || images.length === 0) return;
+    const ctx = canvas.getContext("2d", { alpha: false }); // Optimization: disable alpha if not needed
+    if (!ctx) return;
 
-      // Optimization: find the nearest loaded frame (every 3rd frame)
-      const nearestIndex = Math.floor(Math.floor(index) / 3) * 3;
-      const img = images[nearestIndex];
-      if (!img) return;
-
-      // மொபைலில் படம் மேலே மறையாமல் இருக்க மற்றும் அளவைக் குறைக்க (Reduce size)
-      const isMobile = window.innerWidth < 768;
-      
-      let scale;
-      if (isMobile) {
-        // மொபைலில் படத்தை 70% அளவுக்குச் சுருக்குகிறோம் (Contain like feel)
-        scale = Math.min(canvas.width / img.width, canvas.height / img.height) * 1.2;
-      } else {
-        scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+    const frameIdx = Math.floor(index);
+    
+    // Nearest neighbor search for loaded frames if current frame isn't loaded yet
+    let img = images[frameIdx];
+    if (!img) {
+      // Find the closest loaded image
+      for (let offset = 1; offset < frameCount; offset++) {
+        if (frameIdx + offset < frameCount && images[frameIdx + offset]) {
+          img = images[frameIdx + offset];
+          break;
+        }
+        if (frameIdx - offset >= 0 && images[frameIdx - offset]) {
+          img = images[frameIdx - offset];
+          break;
+        }
       }
+    }
+    
+    if (!img) return;
 
-      const x = (canvas.width / 2) - (img.width / 2) * scale;
-      const y = isMobile ? (canvas.height / 4) - (img.height / 4) * scale : (canvas.height / 2) - (img.height / 2) * scale;
+    const isMobile = window.innerWidth < 768;
+    const scaleBase = Math.min(canvas.width / img.width, canvas.height / img.height);
+    const scale = isMobile ? scaleBase * 0.9 : scaleBase * 1.1;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-    });
+    const x = (canvas.width / 2) - (img.width / 2) * scale;
+    const y = (canvas.height / 2) - (img.height / 2) * scale;
+
+    ctx.fillStyle = "#050505"; // Match background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
   };
 
   useMotionValueEvent(frameIndex, "change", (latest) => {

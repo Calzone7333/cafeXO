@@ -34,13 +34,13 @@ export default function MenuHero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-wrap items-center justify-center gap-4 md:gap-6"
         >
-          <a href="#explore" className="px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/90 transition-colors font-manrope">
+          <a href="/#explore" className="px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/90 transition-colors font-manrope">
             Explore Menu
           </a>
-          <a href="#signature" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
+          <a href="/#signature" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
             Platter Menu
           </a>
-          <a href="#beverage" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
+          <a href="/#beverage" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
             Beverage Menu
           </a>
         </motion.div>

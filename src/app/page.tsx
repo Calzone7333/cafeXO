@@ -15,7 +15,13 @@ export default function Home() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setShowOnlyMenu(window.location.hash === "#menu");
+      const hash = window.location.hash;
+      const menuHashes = ["#menu", "#explore", "#signature", "#beverage"];
+      const isMenu = menuHashes.some(h => hash.includes(h));
+      setShowOnlyMenu(isMenu);
+      
+      // Reset scroll to top when switching to/from menu
+      window.scrollTo(0, 0);
     };
 
     // Initial check
@@ -37,12 +43,12 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-[#050505]">
-      <ScrollyCanvas frameCount={254} />
-      
+      <ScrollyCanvas frameCount={253} />
+
       <MenuSection />
-      
+
       <AboutSection />
-      
+
       <ContactSection />
 
       {/* Footer */}
