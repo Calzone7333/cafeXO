@@ -21,7 +21,7 @@ const contactInfo = [
   },
   {
     title: "Hours",
-    value: "Mon – Sun: 3pm – 3am",
+    value: "Mon – Sun: 10AM – 12PM",
     link: null
   },
 ];
