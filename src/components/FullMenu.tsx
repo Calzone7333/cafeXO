@@ -9,8 +9,8 @@ const categories = [
     title: "Our Menu",
     subtitle: "Handcrafted with love, served with passion",
     images: [
-      "/cafe menu/01 Menu.jpg.jpeg",
-      "/cafe menu/2 Menu.jpg.jpeg",
+      "/cafe menu/1stpage.png",
+      "/cafe menu/2stpage.png",
       "/cafe menu/3 Menu.jpg.jpeg",
     ]
   },
@@ -30,7 +30,7 @@ const categories = [
     title: "Beverage Menu",
     subtitle: "Refreshing blends for every mood",
     images: [
-      "/cafe menu/4 Menu.jpg.jpeg",
+      "/cafe menu/4stpage.png",
       "/cafe menu/5 Menu.jpg.jpeg",
     ]
   }
