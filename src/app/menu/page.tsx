@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import FullMenu from "@/components/FullMenu";
 import Navbar from "@/components/Navbar";
 import MenuHero from "@/components/MenuHero";
-import Preloader from "@/components/Preloader";
 
 export default function MenuPage() {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -27,8 +26,6 @@ export default function MenuPage() {
 
   return (
     <main className="min-h-screen bg-[#050505]">
-      <Preloader progress={loadingProgress} isLoaded={isLoaded} />
-      
       <Navbar />
       <MenuHero />
       <FullMenu />
