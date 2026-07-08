@@ -13,17 +13,39 @@ body {
 
 @theme {
   --font-playfair: var(--font-playfair);
-  --font-manrope: var(--font-manrope);
+  --font-poppins: var(--font-poppins);
+  
+  --color-primary: #6F4E37;
+  --color-secondary: #C89B6D;
+  --color-bg: #FFF8F2;
+  --color-dark: #1F1F1F;
+  --color-accent: #D97706;
 }
 
 @layer utilities {
   .font-playfair {
     font-family: var(--font-playfair);
   }
-  .font-manrope {
-    font-family: var(--font-manrope);
+  .font-poppins {
+    font-family: var(--font-poppins);
   }
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move left by exactly half the width so it loops perfectly when content is doubled */
+    transform: translateX(calc(-50% - 1rem)); 
   }
 }

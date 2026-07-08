@@ -4,28 +4,56 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function MenuHero() {
+  const mainHeadingStyle: React.CSSProperties = {
+    fontFamily: '"Adobe Garamond Pro", serif',
+  };
+
+  const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    window.history.pushState(null, "", `/#${id}`);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    
+    // Tiny delay to ensure DOM is ready if we just switched views
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 50);
+  };
+
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-[#050505] pt-32 pb-20">
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-radial-gradient from-white/5 to-transparent blur-[100px] pointer-events-none" />
+    <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-32 pb-20">
       
-      <div className="relative z-10 text-center px-6">
+      {/* Background Image with Parallax & Dark Overlay */}
+      <motion.div 
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 10, ease: "easeOut" }}
+        className="absolute inset-0 z-0 bg-center bg-cover bg-no-repeat"
+        style={{ backgroundImage: 'url("/images/banner.jpg")' }}
+      >
+        <div className="absolute inset-0 bg-[#111111]/80 backdrop-blur-[2px]" />
+      </motion.div>
+      
+      <div className="relative z-10 text-center px-6 mt-12">
         <motion.span 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-[10px] md:text-xs font-black tracking-[0.6em] text-white/30 uppercase mb-4 block font-manrope"
+          className="text-xs md:text-sm font-bold tracking-[0.4em] text-[#EFBF03] uppercase mb-4 block font-poppins"
         >
-          Artisanal Gastronomy
+          Discover Our Offerings
         </motion.span>
         
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-8xl font-black text-white uppercase font-playfair tracking-tighter mb-16"
+          style={mainHeadingStyle}
+          className="text-6xl md:text-8xl text-white tracking-wide mb-12 drop-shadow-xl"
         >
-          THE MENU
+          Our Menu
         </motion.h1>
 
         <motion.div 
@@ -34,20 +62,20 @@ export default function MenuHero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-wrap items-center justify-center gap-4 md:gap-6"
         >
-          <a href="/#explore" className="px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/90 transition-colors font-manrope">
-            Explore Menu
+          <a href="/#menu" onClick={(e) => scrollTo(e, "menu")} className="px-8 py-4 bg-[#EFBF03] text-[#111111] text-xs font-black uppercase tracking-widest hover:bg-[#D4A902] transition-colors font-poppins shadow-lg hover:shadow-[#EFBF03]/40">
+            Our Menu
           </a>
-          <a href="/#signature" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
-            Platter Menu
-          </a>
-          <a href="/#beverage" className="px-8 py-4 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors font-manrope">
+          <a href="/#beverage" onClick={(e) => scrollTo(e, "beverage")} className="px-8 py-4 bg-transparent border border-[#EFBF03] text-[#EFBF03] text-xs font-black uppercase tracking-widest hover:bg-[#EFBF03]/10 transition-colors font-poppins">
             Beverage Menu
+          </a>
+          <a href="/#platter" onClick={(e) => scrollTo(e, "platter")} className="px-8 py-4 bg-transparent border border-[#EFBF03] text-[#EFBF03] text-xs font-black uppercase tracking-widest hover:bg-[#EFBF03]/10 transition-colors font-poppins">
+            Platter Menu
           </a>
         </motion.div>
       </div>
       
-      {/* Scroll indicator line */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-16 w-[1px] bg-gradient-to-b from-white/20 to-transparent" />
+      {/* Scroll indicator */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-20 w-[2px] bg-gradient-to-b from-[#EFBF03]/60 to-transparent" />
     </section>
   );
 }

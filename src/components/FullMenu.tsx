@@ -15,6 +15,15 @@ const categories = [
     ]
   },
   {
+    id: "beverage",
+    title: "Beverage Menu",
+    subtitle: "Refreshing blends for every mood",
+    images: [
+      "/cafe menu/4stpage.png",
+      "/cafe menu/5 Menu.jpg.jpeg",
+    ]
+  },
+  {
     id: "signature",
     title: "Platter Menu",
     subtitle: "Artisanal arrangements for the shared table",
@@ -23,15 +32,6 @@ const categories = [
       "/cafe menu/07 Menu.jpg.jpeg",
       "/cafe menu/08 Menu.jpg.jpeg",
       "/cafe menu/09 Menu.jpg.jpeg",
-    ]
-  },
-  {
-    id: "beverage",
-    title: "Beverage Menu",
-    subtitle: "Refreshing blends for every mood",
-    images: [
-      "/cafe menu/4stpage.png",
-      "/cafe menu/5 Menu.jpg.jpeg",
     ]
   }
 ];
@@ -48,7 +48,7 @@ export default function FullMenu() {
   }, []);
 
   return (
-    <section id="menu" className="py-24 bg-[#050505] min-h-screen">
+    <section id="full-menu-section" className="py-24 bg-[#050505] min-h-screen">
       <div className="max-w-6xl mx-auto px-6">
         {categories.map((category, catIndex) => (
           <div key={category.id} id={category.id} className="mb-32 last:mb-0 scroll-mt-32">
@@ -59,7 +59,7 @@ export default function FullMenu() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-black uppercase font-playfair text-white tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-playfair italic font-bold text-[#EFBF03] tracking-wide mb-4">
                 {category.title}
               </h2>
               <p className="text-sm md:text-base text-white/40 font-manrope font-light italic">

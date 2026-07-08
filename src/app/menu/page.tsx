@@ -36,7 +36,7 @@ export default function MenuPage() {
       {/* Footer */}
       <footer className="py-24 bg-[#050505] flex flex-col items-center justify-center border-t border-white/5">
         <div className="max-w-4xl px-8 text-center">
-          <div className="text-[10px] tracking-[0.5em] text-white/20 uppercase font-manrope">
+          <div className="text-[10px] tracking-[0.5em] text-white/20 uppercase font-inter">
             © 2024 CAFEXO INDUSTRIES. ALL RIGHTS RESERVED.
           </div>
         </div>

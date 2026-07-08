@@ -3,67 +3,65 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const features = [
-  {
-    title: "Premium Quality",
-    description: "We source the finest beans from sustainable farms around the world",
-  },
-  {
-    title: "Made with Love",
-    description: "Every cup is crafted with passion and attention to detail",
-  },
-  {
-    title: "Unique Experience",
-    description: "A cozy atmosphere where memories are made over great coffee",
-  },
-  {
-    title: "Community Focused",
-    description: "We're more than a cafe - we're your neighborhood gathering place",
-  },
-];
-
 export default function AboutSection() {
   return (
-    <section id="what-we-are" className="relative z-20 py-32 bg-[#050505] px-8 md:px-24 border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-3xl mb-24"
-        >
-          <h2 className="text-4xl md:text-6xl font-black text-white uppercase font-playfair tracking-tight">
-            What We Are
-          </h2>
-          <p className="mt-8 text-lg md:text-xl text-white/60 font-light leading-relaxed font-playfair italic">
-            More than just coffee — we're crafting experiences that warm your soul
-          </p>
-          <div className="mt-12 h-[1px] w-24 bg-white/20" />
-        </motion.div>
+    <section id="what-we-are" className="py-24 bg-white relative z-20 font-poppins">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          
+          {/* Left Column - Text */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="flex flex-col gap-6"
+          >
+            <h2 className="text-[#EFBF03] font-playfair italic font-bold text-4xl md:text-5xl tracking-wide">
+              About Us
+            </h2>
+            <h3 className="text-xl md:text-2xl font-black text-[#111111] uppercase tracking-wide">
+              IT STARTED, QUITE SIMPLY, LIKE THIS...
+            </h3>
+            
+            <div className="text-gray-500 font-medium leading-loose flex flex-col gap-4 text-sm md:text-[15px]">
+              <p>
+                CafeXO was born out of a profound passion for culinary excellence and a desire to create a sanctuary where food, art, and community intersect seamlessly.
+              </p>
+              <p>
+                Our journey began with a simple belief: every meal should be a celebration of flavors and the people you share it with. We meticulously source our ingredients from local artisans and global purveyors to ensure that every dish on your plate is a masterpiece. Whether it's a handcrafted espresso to start your morning or a beautifully curated platter for a sunset dinner, our commitment to quality shines through in every detail. 
+              </p>
+              <p>
+                Beyond the food, CafeXO is about the experience. Step into our thoughtfully designed space, let our warm hospitality embrace you, and create unforgettable memories over the art of fine dining.
+              </p>
+            </div>
+          </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group"
-            >
-              <div className="flex items-start gap-6">
-                <div className="mt-1 h-2 w-2 rounded-full bg-white transition-all duration-500 group-hover:scale-[2] group-hover:bg-white" />
-                <div>
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wider font-playfair">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-4 text-white/40 font-light leading-relaxed max-w-sm">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          {/* Right Column - Images */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center mt-10 lg:mt-0"
+          >
+            <div className="relative w-4/5 h-[90%] md:h-[80%] mx-auto ml-auto mr-4">
+              {/* Main Image */}
+              <img 
+                src="/images/about-main.jpg" 
+                alt="About Main" 
+                className="w-full h-full object-cover rounded shadow-lg relative z-10"
+              />
+              
+              {/* Inset Image */}
+              <img 
+                src="/images/about-inset.jpg" 
+                alt="About Inset" 
+                className="absolute -bottom-8 -left-12 w-2/3 md:w-3/5 h-auto object-cover rounded shadow-[0_15px_30px_rgba(0,0,0,0.1)] border-[8px] border-white z-20"
+              />
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
