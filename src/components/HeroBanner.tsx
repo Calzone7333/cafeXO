@@ -89,7 +89,7 @@ export default function HeroBanner() {
               whileTap={{ scale: 0.95 }}
               className="bg-[#EFBF03] text-[#111111] px-10 py-4 font-black text-sm tracking-wider uppercase shadow-lg hover:shadow-[#EFBF03]/40 transition-colors"
             >
-              BOOK MY TABLE
+              BOOK AN EVENT
             </motion.button>
           </a>
         </motion.div>
