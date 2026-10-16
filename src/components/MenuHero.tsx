@@ -65,12 +65,7 @@ export default function MenuHero() {
           <a href="/#menu" onClick={(e) => scrollTo(e, "menu")} className="px-8 py-4 bg-[#EFBF03] text-[#111111] text-xs font-black uppercase tracking-widest hover:bg-[#D4A902] transition-colors font-poppins shadow-lg hover:shadow-[#EFBF03]/40">
             Our Menu
           </a>
-          <a href="/#beverage" onClick={(e) => scrollTo(e, "beverage")} className="px-8 py-4 bg-transparent border border-[#EFBF03] text-[#EFBF03] text-xs font-black uppercase tracking-widest hover:bg-[#EFBF03]/10 transition-colors font-poppins">
-            Beverage Menu
-          </a>
-          <a href="/#platter" onClick={(e) => scrollTo(e, "platter")} className="px-8 py-4 bg-transparent border border-[#EFBF03] text-[#EFBF03] text-xs font-black uppercase tracking-widest hover:bg-[#EFBF03]/10 transition-colors font-poppins">
-            Platter Menu
-          </a>
+          
         </motion.div>
       </div>
       

@@ -14,7 +14,6 @@ const categories = [
     ]
   },
   
-  
 ];
 
 export default function FullMenu() {
