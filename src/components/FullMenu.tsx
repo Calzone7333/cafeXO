@@ -9,31 +9,12 @@ const categories = [
     title: "Our Menu",
     subtitle: "Handcrafted with love, served with passion",
     images: [
-      "/cafe menu/1stpage.png",
-      "/cafe menu/2stpage.png",
-      "/cafe menu/3 Menu.jpg.jpeg",
+      "/cafe menu/1stpage.jpg",
+      "/cafe menu/2stpage.jpg",
     ]
   },
-  {
-    id: "beverage",
-    title: "Beverage Menu",
-    subtitle: "Refreshing blends for every mood",
-    images: [
-      "/cafe menu/4stpage.png",
-      "/cafe menu/5 Menu.jpg.jpeg",
-    ]
-  },
-  {
-    id: "signature",
-    title: "Platter Menu",
-    subtitle: "Artisanal arrangements for the shared table",
-    images: [
-      "/cafe menu/06 Menu.jpg.jpeg",
-      "/cafe menu/07 Menu.jpg.jpeg",
-      "/cafe menu/08 Menu.jpg.jpeg",
-      "/cafe menu/09 Menu.jpg.jpeg",
-    ]
-  }
+  
+  
 ];
 
 export default function FullMenu() {
