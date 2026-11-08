@@ -9,8 +9,8 @@ const categories = [
     title: "Our Menu",
     subtitle: "Handcrafted with love, served with passion",
     images: [
-      "/cafe menu/1stpage.jpg",
-      "/cafe menu/2stpage.jpg",
+      "/cafe-menu/1stpage.jpg",
+      "/cafe-menu/2stpage.jpg",
     ]
   },
   
